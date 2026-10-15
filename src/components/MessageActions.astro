@@ -1,0 +1,118 @@
+---
+import { whatsappUrl } from '../lib/mensajes';
+
+interface Props {
+	text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<div class="actions">
+	<button class="actions__copy" type="button" data-copy data-text={text}>
+		<svg
+			class="actions__icon"
+			width="16"
+			height="16"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<rect x="9" y="9" width="11" height="11" rx="2"></rect>
+			<path d="M5 15V6a2 2 0 0 1 2-2h9"></path>
+		</svg>
+		<span data-copy-label>Copiar</span>
+	</button>
+
+	<a class="actions__share" href={whatsappUrl(text)} target="_blank" rel="noopener noreferrer">
+		<svg class="actions__icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+			<path
+				d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3zm0 2a7 7 0 1 1-3.5 13.1l-.3-.2-2.4.6.6-2.3-.2-.3A7 7 0 0 1 12 5zm-2.7 4c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.7 4.2 3.7 2 .8 2.4.7 2.9.6.4-.1 1.4-.6 1.6-1.2.2-.6.2-1.1.1-1.2l-.6-.3-1.4-.7c-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.2 0-.4.1-.5l.4-.5.3-.5v-.5l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.6z"
+			></path>
+		</svg>
+		Pásalo<span class="visually-hidden"> por WhatsApp</span>
+	</a>
+</div>
+
+<style>
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem;
+		padding-top: 1rem;
+		border-top: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
+	}
+
+	.actions__copy,
+	.actions__share {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		min-height: 2.75rem;
+		padding: 0.625rem 1rem;
+		border-radius: var(--radius-md);
+		font-size: 1rem;
+		transition:
+			transform 180ms ease,
+			box-shadow 180ms ease,
+			background-color 180ms ease,
+			border-color 180ms ease;
+	}
+
+	.actions__copy {
+		border: 1px solid var(--border);
+		background-color: var(--paper);
+		font-weight: 600;
+	}
+
+	.actions__copy:hover {
+		transform: translateY(-2px);
+		border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+		background-color: var(--secondary);
+	}
+
+	.actions__share {
+		background-color: var(--primary);
+		color: var(--primary-foreground);
+		font-weight: 700;
+	}
+
+	.actions__share:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+	}
+
+	.actions__icon {
+		flex: 0 0 auto;
+	}
+</style>
+
+<script>
+	document.addEventListener('click', async (evento) => {
+		const boton = (evento.target as HTMLElement).closest<HTMLButtonElement>('[data-copy]');
+		if (!boton) return;
+
+		const etiqueta = boton.querySelector('[data-copy-label]');
+		const original = etiqueta?.textContent ?? 'Copiar';
+
+		try {
+			if (!navigator.clipboard) throw new Error('Clipboard no disponible');
+			await navigator.clipboard.writeText(boton.dataset.text ?? '');
+			if (etiqueta) etiqueta.textContent = 'Copiado';
+			window.setTimeout(() => {
+				if (etiqueta) etiqueta.textContent = original;
+			}, 1800);
+		} catch {
+			if (etiqueta) etiqueta.textContent = 'No se pudo copiar';
+			window.setTimeout(() => {
+				if (etiqueta) etiqueta.textContent = original;
+			}, 1800);
+		}
+	});
+</script>

@@ -1,0 +1,187 @@
+---
+import MessageActions from './MessageActions.astro';
+
+const destacado = {
+	label: 'Nota del día · Ánimo',
+	text: 'Respira hondo. Paso a paso. No tienes que poder con todo hoy.',
+};
+---
+
+<section class="hero">
+	<div class="container hero__inner">
+		<div class="hero__col">
+			<p class="hero__badge">Mensajes cortos desde siempre</p>
+
+			<h1 class="hero__title">
+				Las palabras justas, <span class="marker">listas para pasar.</span>
+			</h1>
+
+			<p class="hero__lead">
+				Para felicitar, consolar, enamorar o animar. Elige un mensaje, cópialo o mándalo por
+				WhatsApp con un toque.
+			</p>
+
+			<div class="hero__actions">
+				<a class="hero__cta" href="/#mensajes">Ver mensajes</a>
+				<a
+					class="hero__cta-secondary"
+					href="https://www.pasamelo.es/medicina/medicina.html"
+				>
+					Calculadoras de salud
+				</a>
+			</div>
+		</div>
+
+		<div class="hero__figure" aria-label="Mensaje destacado">
+			<div class="hero__shadow" aria-hidden="true"></div>
+			<figure class="ruled-paper hero__note">
+				<figcaption class="hero__note-label">{destacado.label}</figcaption>
+				<blockquote class="hero__quote">“{destacado.text}”</blockquote>
+				<MessageActions text={destacado.text} />
+			</figure>
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero__inner {
+		display: grid;
+		align-items: center;
+		gap: 2.5rem;
+		padding-block: 2.5rem 3.5rem;
+	}
+
+	@media (min-width: 768px) {
+		.hero__inner {
+			grid-template-columns: 1.08fr 0.92fr;
+			gap: 4rem;
+			padding-block: 5rem 6rem;
+		}
+	}
+
+	.hero__col {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.hero__badge {
+		display: inline-flex;
+		align-items: center;
+		width: fit-content;
+		padding: 0.25rem 0.75rem;
+		background-color: color-mix(in oklab, var(--primary) 5%, transparent);
+		border: 1px solid color-mix(in oklab, var(--primary) 20%, transparent);
+		border-radius: 999px;
+		color: var(--primary);
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.18em;
+	}
+
+	.hero__title {
+		font-family: var(--font-display);
+		font-size: clamp(3rem, 1.6rem + 5.6vw, 4.5rem);
+		font-weight: 800;
+		line-height: 1;
+		letter-spacing: -0.03em;
+		text-wrap: balance;
+	}
+
+	.hero__lead {
+		max-width: 28rem;
+		color: var(--muted-foreground);
+		font-size: 1.125rem;
+		line-height: 1.625;
+		text-wrap: pretty;
+	}
+
+	.hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.hero__cta,
+	.hero__cta-secondary {
+		display: inline-flex;
+		align-items: center;
+		min-height: 2.75rem;
+		padding: 0.875rem 1.25rem;
+		border-radius: var(--radius-md);
+		transition:
+			transform 180ms ease,
+			box-shadow 180ms ease,
+			background-color 180ms ease;
+	}
+
+	.hero__cta {
+		background-color: var(--primary);
+		color: var(--primary-foreground);
+		font-weight: 700;
+	}
+
+	.hero__cta:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgb(0 0 0 / 12%);
+	}
+
+	.hero__cta-secondary {
+		border: 1px solid var(--border);
+		background-color: var(--paper);
+		font-weight: 600;
+	}
+
+	.hero__cta-secondary:hover {
+		background-color: var(--secondary);
+	}
+
+	.hero__figure {
+		position: relative;
+		width: 100%;
+		max-width: 28rem;
+		margin-inline: auto;
+	}
+
+	/* Hoja desplazada detrás de la nota (v0: hero.tsx) */
+	.hero__shadow {
+		position: absolute;
+		inset: 0;
+		transform: translate(1rem, 1rem) rotate(3deg);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background-color: var(--paper);
+		box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+	}
+
+	.hero__note {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		padding: 2rem;
+		transform: rotate(-2deg);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		box-shadow: 0 10px 24px rgb(0 0 0 / 10%);
+	}
+
+	.hero__note-label {
+		color: var(--muted-foreground);
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+
+	.hero__quote {
+		color: var(--primary);
+		font-family: var(--font-display);
+		font-size: 1.875rem;
+		font-weight: 600;
+		line-height: 1.3;
+		text-wrap: pretty;
+	}
+</style>

@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Hero from '../components/Hero.astro';
+import MessageExplorer from '../components/MessageExplorer.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<BaseLayout
+	title="pásamelo.es · Mensajes cortos para WhatsApp, móvil y redes"
+	description="Mensajes cortos para felicitar, consolar, enamorar o animar. Cumpleaños, Navidad, amor, amistad, pésame y más, listos para copiar y enviar por WhatsApp."
+>
+	<SiteHeader />
+	<main id="contenido" tabindex="-1" class="overflow-x-clip">
+		<Hero />
+		<MessageExplorer />
+	</main>
+	<SiteFooter />
+</BaseLayout>
+
+<style>
+	.overflow-x-clip {
+		overflow-x: clip;
+	}
+</style>
